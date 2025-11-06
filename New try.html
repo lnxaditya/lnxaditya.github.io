@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aditya — Quotes & Student Resources</title>
+  <meta name="description" content="Motivational quotes, images and downloadable PDFs to help students with self-growth and studies." />
+  <style>
+    :root{
+      --bg:#0f1720; --card:#0b1220; --text:#e6eef8; --muted:#9fb0c8; --accent:#00e6b8;
+      --glass: rgba(255,255,255,0.03);
+    }
+    [data-theme='light']{ --bg:#f7fbff; --card:#ffffff; --text:#091427; --muted:#5b6b7a; --accent:#00796b; --glass: rgba(0,0,0,0.03); }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text);}
+    .wrap{max-width:1100px;margin:28px auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    h1{margin:0;font-size:22px}
+    p.lead{margin:6px 0 14px;color:var(--muted)}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--card);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--text);cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:18px;margin-top:18px}
+    /* Left column - Quotes + Gallery */
+    .col-left{display:flex;flex-direction:column;gap:14px}
+    .quote-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.25)}
+    .quote-text{font-size:18px;line-height:1.45;margin:0}
+    .quote-author{margin-top:8px;color:var(--muted);font-size:14px}
+    .quote-nav{display:flex;gap:8px;margin-top:12px}
+    .small{font-size:13px;padding:6px 8px}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .gallery img{width:100%;height:100px;object-fit:cover;border-radius:8px;cursor:pointer}
+
+    /* Right column - PDFs and search */
+    .col-right{position:sticky;top:22px}
+    .search{display:flex;gap:8px;margin-bottom:12px}
+    .search input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.08)}
+    .pdf-list{display:flex;flex-direction:column;gap:10px}
+    .pdf{background:var(--card);padding:12px;border-radius:10px;display:flex;gap:10px;align-items:center}
+    .pdf img{width:52px;height:68px;object-fit:cover;border-radius:6px}
+    .pdf .meta{flex:1}
+    .meta h4{margin:0 0 6px 0;font-size:15px}
+    .meta p{margin:0;color:var(--muted);font-size:13px}
+    .actions{display:flex;gap:8px}
+    a.link-btn{background:var(--accent);color:#042022;padding:8px 10px;border-radius:8px;text-decoration:none;font-weight:600}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(2,6,10,0.6);display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .18s}
+    .lightbox.show{visibility:visible;opacity:1}
+    .lightbox img{max-width:92%;max-height:86%;border-radius:10px;box-shadow:0 20px 50px rgba(2,6,10,0.6)}
+
+    /* Responsive */
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)} .col-right{position:relative;top:auto}}
+    @media(max-width:480px){.gallery img{height:80px}}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Aditya — Quotes, Images & Student PDFs</h1>
+        <p class="lead">Daily motivation and study resources — short quotes, printable PDFs, and image inspiration for self-growth.</p>
+      </div>
+      <div class="controls">
+        <button class="btn" id="themeToggle">Toggle theme</button>
+        <a class="btn" href="#pdfs">PDFs</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="col-left">
+        <div class="quote-card" aria-live="polite">
+          <p class="quote-text" id="quoteText">“Be fearless in the pursuit of what sets your soul on fire.”</p>
+          <div class="quote-author" id="quoteAuthor">— Unknown</div>
+          <div class="quote-nav">
+            <button class="btn small" id="prevQuote">Previous</button>
+            <button class="btn small" id="nextQuote">Next</button>
+            <button class="btn small" id="randomQuote">Surprise me</button>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <h3 style="margin-top:0">Image Gallery</h3>
+          <div class="gallery" id="gallery">
+            <!-- Images will be inserted here -->
+          </div>
+          <p class="small" style="margin-top:8px;color:var(--muted)">Click an image to view larger. To add images: upload to your repo's <code>/images</code> folder and update the <code>images</code> array in the script.</p>
+        </div>
+
+      </div>
+
+      <aside class="col-right">
+        <div id="pdfs">
+          <div class="search">
+            <input id="searchBox" placeholder="Search PDFs or quotes..." aria-label="Search resources" />
+            <button class="btn" id="clearSearch">Clear</button>
+          </div>
+          <div class="pdf-list" id="pdfList">
+            <!-- PDF cards inserted here -->
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      Tip: Keep each PDF small (under 5–10 MB) so students can download easily on mobile.
+    </footer>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
+    <img src="" alt="Large preview" id="lightboxImg">
+  </div>
+
+  <script>
+    // --- Content: edit these arrays with your own files or links ---
+    const quotes = [
+      {t: 'Your limitation—it's only your imagination.', a: 'Unknown'},
+      {t: 'Push yourself, because no one else is going to do it for you.', a: 'Unknown'},
+      {t: 'Sometimes later becomes never. Do it now.', a: 'Unknown'},
+      {t: 'Great things never come from comfort zones.', a: 'Unknown'},
+      {t: 'Dream it. Wish it. Do it.', a: 'Unknown'},
+    ];
+
+    // images: you can replace these with paths like '/images/art1.jpg' in your repo
+    const images = [
+      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60'
+    ];
+
+    // PDFs: use raw GitHub links or your own hosted URLs. Example format:
+    // {title: 'Math tricks', desc: 'Shortcuts for algebra', thumb: '/images/thumb-math.jpg', url: 'https://raw.githubusercontent.com/yourusername/yourrepo/main/pdfs/math-tricks.pdf'}
+    const pdfs = [
+      {title:'Study Planner', desc:'7-day study routine for exams', thumb:'https://via.placeholder.com/80x100?text=PDF', url:'#'},
+      {title:'Motivation Notes', desc:'Short motivational tips for students', thumb:'https://via.placeholder.com/80x100?text=PDF', url:'#'},
+      {title:'Quick Maths', desc:'Formulas & tricks', thumb:'https://via.placeholder.com/80x100?text=PDF', url:'#'}
+    ];
+
+    // --- Minimal UI logic ---
+    let qi = 0;
+    const qText = document.getElementById('quoteText');
+    const qAuthor = document.getElementById('quoteAuthor');
+    function showQuote(i){ qi = (i + quotes.length) % quotes.length; qText.textContent = '“' + quotes[qi].t + '”'; qAuthor.textContent = '— ' + quotes[qi].a; }
+    document.getElementById('nextQuote').addEventListener('click', ()=> showQuote(qi+1));
+    document.getElementById('prevQuote').addEventListener('click', ()=> showQuote(qi-1));
+    document.getElementById('randomQuote').addEventListener('click', ()=> showQuote(Math.floor(Math.random()*quotes.length)));
+    showQuote(0);
+
+    // Gallery render + lightbox
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    images.forEach(src=>{
+      const img=document.createElement('img'); img.src=src; img.alt='Inspiration image';
+      img.addEventListener('click', ()=>{ lightboxImg.src=src; lightbox.classList.add('show'); lightbox.setAttribute('aria-hidden','false'); });
+      gallery.appendChild(img);
+    });
+    lightbox.addEventListener('click', ()=>{ lightbox.classList.remove('show'); lightbox.setAttribute('aria-hidden','true'); });
+
+    // PDFs render
+    const pdfList = document.getElementById('pdfList');
+    function renderPDFs(list){ pdfList.innerHTML=''; list.forEach(p=>{
+      const el=document.createElement('div'); el.className='pdf';
+      el.innerHTML=`<img src="${p.thumb}" alt="${p.title}"><div class="meta"><h4>${p.title}</h4><p>${p.desc}</p></div><div class="actions"><a class='link-btn' href='${p.url}' target='_blank' rel='noopener'>View</a></div>`;
+      pdfList.appendChild(el);
+    })}
+    renderPDFs(pdfs);
+
+    // Search filter for both quotes & pdfs (simple)
+    const searchBox = document.getElementById('searchBox');
+    document.getElementById('clearSearch').addEventListener('click', ()=>{ searchBox.value=''; applyFilter(); });
+    searchBox.addEventListener('input', applyFilter);
+    function applyFilter(){ const q = searchBox.value.toLowerCase().trim();
+      // filter pdfs
+      const filtered = pdfs.filter(p => (p.title + ' ' + p.desc).toLowerCase().includes(q));
+      renderPDFs(filtered);
+      // quick behavior for quote: if search matches any quote text, show first match
+      if(q.length>1){ const match = quotes.find(qu => (qu.t + ' ' + qu.a).toLowerCase().includes(q)); if(match) { showQuote(quotes.indexOf(match)); }}
+    }
+
+    // Theme toggle (persists in localStorage)
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('site-theme', t); }
+    themeToggle.addEventListener('click', ()=>{ const cur = document.documentElement.getAttribute('data-theme')||'dark'; setTheme(cur==='dark'?'light':'dark'); });
+    const saved = localStorage.getItem('site-theme'); if(saved) setTheme(saved);
+
+  </script>
+</body>
+</html>
